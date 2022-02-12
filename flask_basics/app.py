@@ -47,5 +47,23 @@ def query():
         name, location)
 
 
+@app.route('/form')
+def form():
+    return '''<form method="POST" action="/process">
+    <input type="text" name="name">
+    <input type="text" name="location">
+    <input type="submit" value="Submit">
+    </form>'''
+
+
+@app.route('/process', methods=['POST'])
+def process():
+    name = request.form['name']
+    location = request.form['location']
+
+    return 'Hello {}, you are from {}. Form submitted successfully.'.format(
+        name, location)
+
+
 if __name__ == '__main__':
     app.run()
