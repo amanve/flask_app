@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
@@ -61,6 +62,20 @@ def process():
     location = request.form['location']
 
     return f'Hello {name}, you are from {location}. Form submitted successfully.'
+
+
+@app.route('/processjson', methods=['POST'])
+def processjson():
+    data = request.get_json()
+    name = data['name']
+    location = data['location']
+    randomList = data['randomList']
+    return jsonify({
+        'result': 'Success',
+        'name': name,
+        'location': location,
+        'randomKeyList': randomList[0]
+    })
 
 
 if __name__ == '__main__':
