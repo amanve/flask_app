@@ -1,12 +1,14 @@
-from flask import Flask, jsonify, request, url_for, redirect
+from flask import Flask, jsonify, request, url_for, redirect, session
 
 app = Flask(__name__)
 
 app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'thisisasecretkey!'
 
 
 @app.route('/')
 def index():
+    session.pop('name', None)
     return '<h1>Hello, World!</h1>'
 
 
@@ -33,12 +35,17 @@ accepts UUID strings """
 @app.route('/home', methods=['POST', 'GET'], defaults={'name': 'John'})
 @app.route('/home/<string:name>', methods=['POST', 'GET'])
 def home(name):
+    session['name'] = name
     return f'<h1>{name} is on Home Page</h1>'
 
 
 @app.route('/json')
 def json():
-    return jsonify({'key': 'value', 'key2': [1, 2, 3]})
+    if 'name' in session:
+        name = session['name']
+    else:
+        name = 'NotinSession!'
+    return jsonify({'key': 'value', 'key2': [1, 2, 3], 'name': name})
 
 
 @app.route('/query')
