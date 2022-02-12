@@ -1,4 +1,3 @@
-from unicodedata import name
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
@@ -47,16 +46,40 @@ def query():
     return f'<h1>Hi {name}. u r from {location}. You are on the query page</h1>'
 
 
+# @app.route('/form')
+# def form():
+#     return '''<form method="POST" action="/process">
+#     <input type="text" name="name">
+#     <input type="text" name="location">
+#     <input type="submit" value="Submit">
+#     </form>'''
+""" @app.route('/form', methods=['GET', 'POST'])
+def form():
+
+    if request.method == 'GET':
+        return '''<form method="POST" action="/form">
+    <input type="text" name="name">
+    <input type="text" name="location">
+    <input type="submit" value="Submit">
+    </form>'''
+    else:
+        name = request.form['name']
+        location = request.form['location']
+
+        return f'Hello {name}, you are from {location}. Form submitted successfully.' """
+""" Either of the methods to handle form requests """
+
+
 @app.route('/form')
 def form():
-    return '''<form method="POST" action="/process">
+    return '''<form method="POST" action="/form">
     <input type="text" name="name">
     <input type="text" name="location">
     <input type="submit" value="Submit">
     </form>'''
 
 
-@app.route('/process', methods=['POST'])
+@app.route('/form', methods=['POST'])
 def process():
     name = request.form['name']
     location = request.form['location']
