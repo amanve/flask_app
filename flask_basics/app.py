@@ -31,7 +31,7 @@ accepts UUID strings """
 @app.route('/home', methods=['POST', 'GET'], defaults={'name': 'John'})
 @app.route('/home/<string:name>', methods=['POST', 'GET'])
 def home(name):
-    return '<h1>{} is on Home Page</h1>'.format(name)
+    return f'<h1>{name} is on Home Page</h1>'
 
 
 @app.route('/json')
@@ -43,8 +43,7 @@ def json():
 def query():
     name = request.args.get('name')
     location = request.args.get('location')
-    return '<h1>Hi {}. u r from {}. You are on the query page</h1>'.format(
-        name, location)
+    return f'<h1>Hi {name}. u r from {location}. You are on the query page</h1>'
 
 
 @app.route('/form')
@@ -61,8 +60,7 @@ def process():
     name = request.form['name']
     location = request.form['location']
 
-    return 'Hello {}, you are from {}. Form submitted successfully.'.format(
-        name, location)
+    return f'Hello {name}, you are from {location}. Form submitted successfully.'
 
 
 if __name__ == '__main__':
