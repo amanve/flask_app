@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, url_for, redirect
 
 app = Flask(__name__)
 
@@ -68,9 +68,7 @@ def form():
 
         return f'Hello {name}, you are from {location}. Form submitted successfully.' """
 """ Either of the methods to handle form requests """
-
-
-@app.route('/form')
+""" @app.route('/form')
 def form():
     return '''<form method="POST" action="/form">
     <input type="text" name="name">
@@ -84,7 +82,25 @@ def process():
     name = request.form['name']
     location = request.form['location']
 
-    return f'Hello {name}, you are from {location}. Form submitted successfully.'
+    return f'Hello {name}, you are from {location}. Form submitted successfully.' """
+
+
+# URL redirect and form
+@app.route('/form', methods=['GET', 'POST'])
+def form():
+
+    if request.method == 'GET':
+        return '''<form method="POST" action="/form">
+    <input type="text" name="name">
+    <input type="text" name="location">
+    <input type="submit" value="Submit">
+    </form>'''
+    else:
+        name = request.form['name']
+        # location = request.form['location']
+
+        # return f'Hello {name}, you are from {location}. Form submitted successfully.'
+        return redirect(url_for('home', name=name))
 
 
 @app.route('/processjson', methods=['POST'])
