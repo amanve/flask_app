@@ -15,6 +15,12 @@
 <h1>this is not displayed</h1>
         {%endif%}
 
-        
+        {% for x in myList %}
+        <h4>{{x}}</h4>
+        {% endfor %}
+
+        {% for x in Listofdict %}
+        <h4>{{x.name}}</h4>
+        {%endfor%}
 </body>
 </html>

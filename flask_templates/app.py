@@ -36,7 +36,15 @@ accepts UUID strings """
 @app.route('/home/<string:name>', methods=['POST', 'GET'])
 def home(name):
     session['name'] = name
-    return render_template('home.html', name=name, display=False)
+    return render_template('home.html',
+                           name=name,
+                           display=False,
+                           myList=['one', 'two', 'three', 'four'],
+                           Listofdict=[{
+                               'name': 'Aman'
+                           }, {
+                               'name': 'John'
+                           }])
 
 
 @app.route('/json')
