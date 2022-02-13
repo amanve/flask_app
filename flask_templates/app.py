@@ -36,7 +36,7 @@ accepts UUID strings """
 @app.route('/home/<string:name>', methods=['POST', 'GET'])
 def home(name):
     session['name'] = name
-    return f'<h1>{name} is on Home Page</h1>'
+    return render_template('home.html', name=name)
 
 
 @app.route('/json')
