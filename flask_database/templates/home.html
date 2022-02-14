@@ -1,0 +1,39 @@
+{% block title %} Homepage {%endblock%}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+        <h1>Database Results</h1>
+        {% for item in results %}
+        <h2>ID:  {{item.id}} Name: {{item.name}} Location: {{item.location}}</h2>
+        {% endfor %}
+        <h1>This is  the home page</h1>
+        <h1>{{name}} is on Home Page</h1>
+        {% if display %}
+        <h1>this is displayed.</h1>
+        {%else%}
+<h1>this is not displayed</h1>
+        {%endif%}
+
+        {% for x in myList %}
+        <h4>{{x}}</h4>
+        {% endfor %}
+
+        {% for x in Listofdict %}
+        <h4>{{x.name}}</h4>
+        {%endfor%}
+
+        <img src="{{url_for('static',filename="img/blog1.jpg")}}" alt="">
+       
+        
+</body>
+</html>
+
+{% endblock %}
