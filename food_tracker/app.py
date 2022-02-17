@@ -1,3 +1,4 @@
+from unittest import result
 from flask import Flask, render_template, g, request
 import sqlite3
 
@@ -29,9 +30,15 @@ def index():
     return render_template('home.html')
 
 
-@app.route('/view')
-def view():
-    return render_template('day.html')
+@app.route('/view/<date>')  #date is 20170520
+def view(date):
+    db = get_db()
+
+    cur = db.execute('select entry_date from log_date where entry_date= ?',
+                     [date])
+    result = cur.fetchone()
+    return '<h1>The date is {}</h1>'.format(result)
+    # return render_template('day.html')
 
 
 @app.route('/add_food', methods=['GET', 'POST'])
