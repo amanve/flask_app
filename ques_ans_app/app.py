@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Flask, render_template, g, request
 from db import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -34,8 +35,24 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        # return f'<h1>Username: {request.form["name"]} Password: {request.form["password"]}'
+        db = get_db()
+
+        name = request.form["name"]
+        password = request.form["password"]
+
+        user_cur = db.execute(
+            'select id,name,password from users where name= ?', [name])
+        user_result = user_cur.fetchone()
+
+        # return f'<h1>{user_result["password"]}</h1>'
+        if check_password_hash(user_result['password'], password):
+            return '<h1>The password is correct</h1>'
+        else:
+            return '<h1>The password is incorrect</h1>'
     return render_template('login.html')
 
 
