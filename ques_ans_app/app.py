@@ -35,8 +35,15 @@ def index():
         user = session['user'] """
 
     user = get_current_user()
+    db = get_db()
 
-    return render_template('home.html', user=user)
+    questions_cur = db.execute(
+        'select questions.id as question_id, questions.question_text,askers.name as asker_name,experts.name as expert_name from questions join users as askers on askers.id = questions.asked_by_id join users as experts on experts.id=questions.expert_id where questions.answer_text is not null'
+    )
+
+    questions_result = questions_cur.fetchall()
+
+    return render_template('home.html', user=user, questions=questions_result)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -84,10 +91,17 @@ def login():
     return render_template('login.html', user=user)
 
 
-@app.route('/question')
-def question():
+@app.route('/question/<question_id>')
+def question(question_id):
     user = get_current_user()
-    return render_template('question.html', user=user)
+    db = get_db()
+
+    question_cur = db.execute(
+        'select questions.question_text, questions.answer_text, askers.name as asker_name,experts.name as expert_name from questions join users as askers on askers.id = questions.asked_by_id join users as experts on experts.id=questions.expert_id where questions.id = ?',
+        [question_id])
+
+    question = question_cur.fetchone()
+    return render_template('question.html', user=user, question=question)
 
 
 @app.route('/answer/<question_id>', methods=['GET', 'POST'])
