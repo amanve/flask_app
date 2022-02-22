@@ -32,19 +32,23 @@ def get_current_user():
 @app.route('/')
 def index():
     """ user = None
-    if 'user' in session:
+    if 'user' in session:    
         user = session['user'] """
 
     user = get_current_user()
     db = get_db()
 
-    questions_cur = db.execute(
-        'select questions.id as question_id, questions.question_text,askers.name as asker_name,experts.name as expert_name from questions join users as askers on askers.id = questions.asked_by_id join users as experts on experts.id=questions.expert_id where questions.answer_text is not null'
-    )
+    questions_cur = db.execute('''select questions.id as question_id, 
+        questions.question_text,askers.name as asker_name,experts.name as expert_name 
+        from questions join users as askers on askers.id = questions.asked_by_id 
+        join users as experts on experts.id=questions.expert_id 
+        where questions.answer_text is not null''')
 
     questions_result = questions_cur.fetchall()
 
-    return render_template('home.html', user=user, questions=questions_result)
+    return render_template('home.html',
+                           user=user,
+                           questions=questions_result)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -52,8 +56,8 @@ def register():
     user = get_current_user()
     if request.method == 'POST':
         db = get_db()
-        existing_user_cur = db.execute('select id from users where name=?',
-                                       [request.form['name']])
+        existing_user_cur = db.execute(
+            'select id from users where name=?', [request.form['name']])
         existing_user = existing_user_cur.fetchone()
 
         if existing_user:
@@ -61,8 +65,8 @@ def register():
             return render_template('register.html',
                                    user=user,
                                    error='User Exists')
-        hashed_password = generate_password_hash(request.form['password'],
-                                                 method='sha256')
+        hashed_password = generate_password_hash(
+            request.form['password'], method='sha256')
         db.execute(
             'insert into users ( name, password,expert,admin) values(?,?,?,?)',
             [request.form['name'], hashed_password, '0', '0'])
@@ -111,11 +115,16 @@ def question(question_id):
     db = get_db()
 
     question_cur = db.execute(
-        'select questions.question_text, questions.answer_text, askers.name as asker_name,experts.name as expert_name from questions join users as askers on askers.id = questions.asked_by_id join users as experts on experts.id=questions.expert_id where questions.id = ?',
+        '''select questions.question_text, 
+        questions.answer_text, askers.name as asker_name,experts.name as expert_name 
+        from questions join users as askers on askers.id = questions.asked_by_id 
+        join users as experts on experts.id=questions.expert_id where questions.id = ?''',
         [question_id])
 
     question = question_cur.fetchone()
-    return render_template('question.html', user=user, question=question)
+    return render_template('question.html',
+                           user=user,
+                           question=question)
 
 
 @app.route('/answer/<question_id>', methods=['GET', 'POST'])
@@ -138,7 +147,8 @@ def answer(question_id):
         return redirect(url_for('unanswered'))
 
     question_cur = db.execute(
-        'select id,question_text from questions where id = ?', [question_id])
+        'select id,question_text from questions where id = ?',
+        [question_id])
     question = question_cur.fetchone()
 
     return render_template('answer.html', user=user, question=question)
@@ -156,17 +166,23 @@ def ask():
     if request.method == 'POST':
         db.execute(
             'insert into questions (question_text, asked_by_id,expert_id) values (?,?,?)',
-            [request.form['question'], user['id'], request.form['expert']])
+            [
+                request.form['question'], user['id'],
+                request.form['expert']
+            ])
         db.commit()
 
         return redirect(url_for('index'))
 
         # return f"""<h1>Question {request.form['question']}, Expert Id {request.form['expert']}</h1>"""
 
-    expert_cur = db.execute('select id, name from users where expert = 1')
+    expert_cur = db.execute(
+        'select id, name from users where expert = 1')
     expert_results = expert_cur.fetchall()
 
-    return render_template('ask.html', user=user, experts=expert_results)
+    return render_template('ask.html',
+                           user=user,
+                           experts=expert_results)
 
 
 @app.route('/unanswered')
@@ -179,10 +195,14 @@ def unanswered():
         return redirect(url_for('index'))
     db = get_db()
     question_cur = db.execute(
-        'select questions.id, questions.question_text,users.name from questions join users on users.id = questions.asked_by_id where questions.answer_text is null and questions.expert_id = ?',
+        '''select questions.id, questions.question_text,users.name 
+        from questions join users on users.id = questions.asked_by_id 
+        where questions.answer_text is null and questions.expert_id = ?''',
         [user['id']])
     questions = question_cur.fetchall()
-    return render_template('unanswered.html', user=user, questions=questions)
+    return render_template('unanswered.html',
+                           user=user,
+                           questions=questions)
 
 
 @app.route('/users')
