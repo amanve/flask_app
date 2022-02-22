@@ -117,6 +117,10 @@ def question(question_id):
 @app.route('/answer/<question_id>', methods=['GET', 'POST'])
 def answer(question_id):
     user = get_current_user()
+
+    if not user:
+        return redirect(url_for('login'))
+
     db = get_db()
 
     if request.method == 'POST':
@@ -136,6 +140,10 @@ def answer(question_id):
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
     user = get_current_user()
+
+    if not user:
+        return redirect(url_for('login'))
+
     db = get_db()
 
     if request.method == 'POST':
@@ -157,6 +165,8 @@ def ask():
 @app.route('/unanswered')
 def unanswered():
     user = get_current_user()
+    if not user:
+        return redirect(url_for('login'))
     db = get_db()
     question_cur = db.execute(
         'select questions.id, questions.question_text,users.name from questions join users on users.id = questions.asked_by_id where questions.answer_text is null and questions.expert_id = ?',
@@ -169,6 +179,9 @@ def unanswered():
 def users():
     user = get_current_user()
 
+    if not user:
+        return redirect(url_for('login'))
+
     db = get_db()
     users_cur = db.execute('select id, name,expert,admin from users')
     users_result = users_cur.fetchall()
@@ -177,6 +190,9 @@ def users():
 
 @app.route('/promote/<user_id>')
 def promote(user_id):
+    user = get_current_user()
+    if not user:
+        return redirect(url_for('login'))
     db = get_db()
     db.execute('update users set expert = 1 where id = ?', [user_id])
     db.commit()
