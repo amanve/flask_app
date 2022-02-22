@@ -1,4 +1,3 @@
-from distutils.log import error
 from flask import Flask, redirect, render_template, g, request, session, url_for
 from db import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
