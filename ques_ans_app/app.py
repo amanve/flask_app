@@ -1,3 +1,4 @@
+from distutils.log import error
 from flask import Flask, redirect, render_template, g, request, session, url_for
 from db import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -51,6 +52,15 @@ def register():
     user = get_current_user()
     if request.method == 'POST':
         db = get_db()
+        existing_user_cur = db.execute('select id from users where name=?',
+                                       [request.form['name']])
+        existing_user = existing_user_cur.fetchone()
+
+        if existing_user:
+            # return redirect(url_for('register'))
+            return render_template('register.html',
+                                   user=user,
+                                   error='User Exists')
         hashed_password = generate_password_hash(request.form['password'],
                                                  method='sha256')
         db.execute(
