@@ -96,6 +96,7 @@ foreverjane@yahoo.com
 >>> q=Member.query.filter(Member.email!=None).all()
 >>> q
 [<Member 'Jane'>, <Member 'aman'>, <Member 'john'>]
+<!-- And Query -->
 >>> q=Member.query.filter(Member.username=='aman').filter(Member.email=='jane@test.com').all()
 >>> q
 []
@@ -105,4 +106,6 @@ foreverjane@yahoo.com
 >>> q=Member.query.filter(db.and_(Member.username=='aman',Member.email=='aman@test.com')).all()
 >>> q
 [<Member 'aman'>]
+
+<!-- Or query -->
 <!-- prettier-ignore-end -->
