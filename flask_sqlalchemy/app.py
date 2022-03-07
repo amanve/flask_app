@@ -22,12 +22,20 @@ class Member(db.Model):
     password = db.Column(db.String(30))
     email = db.Column(db.String(30))
     join_date = db.Column(db.DateTime)
+    
+    orders=db.relationship('Order', backref='member', lazy='dynamic')
 
-    # Create a string
+        # Create a string
     """ Returns representation of the object in Database """
 
     def __repr__(self):
         return '<Member %r>' % self.username
+
+class Order(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    price=db.Column(db.Integer)
+    member_id= db.Column(db.Integer,db.ForeignKey('member.id'))
+
 
 
 if __name__ == '__main__':
