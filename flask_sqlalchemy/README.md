@@ -82,4 +82,15 @@ foreverjane@yahoo.com
 <flask_sqlalchemy.BaseQuery object at 0x0000018B9E0965F0>
 >>> like_query.all()
 [<Member 'aman'>]
+
+<!-- Null -->
+>>> karan=Member(username='karan',password='testuser')
+>>> db.session.add(karan)
+>>> db.session.commit()
+>>> q=Member.query.filter(Member.email==None).all()
+>>> q
+[<Member 'karan'>]
+>>> q=Member.query.filter(Member.email!=None).all()
+>>> q
+[<Member 'Jane'>, <Member 'aman'>, <Member 'john'>]
 <!-- prettier-ignore-end -->
