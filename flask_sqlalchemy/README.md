@@ -59,4 +59,13 @@
 Jane
 >>> print(jane.email)
 foreverjane@yahoo.com
+>>> q1=Member.query
+>>> q2=q1.filter(Member.username=='aman')
+>>> q1.all()
+[<Member 'Jane'>, <Member 'aman'>, <Member 'john'>]
+>>> q2.all()
+[<Member 'aman'>]
+>>> q3=q2.filter(Member.username=='notexists')
+>>> q3.all()
+[]
 <!-- prettier-ignore-end -->
