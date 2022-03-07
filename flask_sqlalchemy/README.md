@@ -25,7 +25,7 @@
 
 <!-- prettier-ignore-start  -->
 > select * from member;
-<!-- prettier-ignore-end  -->
+
 
     +----+----------+----------+---------------+---------------------+
     | id | username | password | email         | join_date           |
@@ -35,6 +35,45 @@
     +----+----------+----------+---------------+---------------------+
 
 > select * from `order`; <!-- "order" is builtin function so it is enclosed in `backticks` -->
+> select * from course;
+
+    +----+------------+
+    | id | name       |
+    +----+------------+
+    |  1 | Python     |
+    |  2 | C++        |
+    |  3 | JavaScript |
+    +----+------------+
+
+> select * from member;
+    +----+----------+----------+-----------------------+---------------------+
+    | id | username | password | email                 | join_date           |
+    +----+----------+----------+-----------------------+---------------------+
+    |  2 | Jane     | testuser | foreverjane@yahoo.com | 2022-03-07 00:00:00 |
+    |  3 | aman     | testpass | aman@test.com         | 2022-03-07 00:00:00 |
+    |  4 | john     | password | john@test.com         | 2022-03-07 00:00:00 |
+    |  5 | karan    | testuser | NULL                  | NULL                |
+    +----+----------+----------+-----------------------+---------------------+
+
+> select * from course;
+    +----+------------+
+    | id | name       |
+    +----+------------+
+    |  1 | Python     |
+    |  2 | C++        |
+    |  3 | JavaScript |
+    +----+------------+
+
+> select member.id, member.username from `member`;
+    +----+----------+
+    | id | username |
+    +----+----------+
+    |  3 | aman     |
+    |  2 | Jane     |
+    |  4 | john     |
+    |  5 | karan    |
+    +----+----------+
+<!-- prettier-ignore-end  -->
 
 <!-- Python Shell Commands -->
 <!-- prettier-ignore-start -->
@@ -171,5 +210,45 @@ foreverjane@yahoo.com
 >>> db.session.add(order1)
 >>> db.session.commit()
 >>> karan.orders.all()
+
+<!-- Many to many query -->
+>>> from app import db,Member,Order,Course
+>>> course1=Course(name='Python')
+>>> course2=Course(name='C++')
+>>> course3=Course(name='JavaScript')
+>>> db.session.add(Python)
+>>> db.session.add(course1) 
+>>> db.session.add(course2)
+>>> db.session.add(course3)
+>>> db.session.commit()
+
+>>> course1.member
+[]
+>>> course2.member
+[]
+>>> course3.member
+[]
+>>> aman=Member.query.filter(Member.username=='aman').first()
+>>> karan=Member.query.filter(Member.username=='karan').first()
+>>> aman
+<Member 'aman'>
+>>> karan
+<Member 'karan'>
+>>> course1.member.append(aman)
+>>> course1.member
+[<Member 'aman'>]
+>>> course1.member.append(karan)
+>>> course1.member
+[<Member 'aman'>, <Member 'karan'>]
+>>> course2.member.append(aman)
+>>> course3.member.append(karan)
+>>> aman.courses.all()
+[<Course 1>, <Course 2>]
+>>> karan.courses.all()
+[<Course 1>, <Course 3>]
+>>> aman.courses.all()    
+[<Course 1>, <Course 2>]
+>>> course1.member
+[<Member 'aman'>, <Member 'karan'>]
 
 <!-- prettier-ignore-end -->
