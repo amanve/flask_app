@@ -128,5 +128,9 @@ foreverjane@yahoo.com
 >>> q1.order_by(Member.username).all()
 [<Member 'aman'>]
 
-
+<!-- Limit Query -->
+>>> Member.query.limit(2).all()
+[<Member 'Jane'>, <Member 'aman'>]
+>>> Member.query.order_by(Member.username).limit(2).all()
+[<Member 'aman'>, <Member 'Jane'>]
 <!-- prettier-ignore-end -->
