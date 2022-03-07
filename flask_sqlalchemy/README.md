@@ -139,4 +139,10 @@ foreverjane@yahoo.com
 [<Member 'aman'>, <Member 'john'>, <Member 'karan'>]
 >>> Member.query.offset(2).all()
 [<Member 'john'>, <Member 'karan'>]
+
+<!-- Count Query -->
+>>> Member.query.filter(db.or_(Member.username=='aman',Member.username=='jane')).count()
+2
+>>> Member.query.count()
+4
 <!-- prettier-ignore-end -->
