@@ -22,7 +22,10 @@
 
 > use flask_tut;
 > show tables;
-> select \* from member; <!-- No "\" in command  -->
+
+<!-- prettier-ignore-start  -->
+> select * from member;
+<!-- prettier-ignore-end  -->
 
     +----+----------+----------+---------------+---------------------+
     | id | username | password | email         | join_date           |
@@ -93,4 +96,13 @@ foreverjane@yahoo.com
 >>> q=Member.query.filter(Member.email!=None).all()
 >>> q
 [<Member 'Jane'>, <Member 'aman'>, <Member 'john'>]
+>>> q=Member.query.filter(Member.username=='aman').filter(Member.email=='jane@test.com').all()
+>>> q
+[]
+>>> q=Member.query.filter(Member.username=='aman').filter(Member.email=='aman@test.com').all()
+>>> q
+[<Member 'aman'>]
+>>> q=Member.query.filter(db.and_(Member.username=='aman',Member.email=='aman@test.com')).all()
+>>> q
+[<Member 'aman'>]
 <!-- prettier-ignore-end -->
