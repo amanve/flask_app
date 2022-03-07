@@ -108,4 +108,25 @@ foreverjane@yahoo.com
 [<Member 'aman'>]
 
 <!-- Or query -->
+>>> q=Member.query.filter(db.or_(Member.username=='aman',Member.email=='jane@test.com')).all()
+>>> q
+[<Member 'aman'>]
+>>> q=Member.query.filter(db.or_(Member.username=='aman',Member.email=='john@test.com')).all()
+>>> q
+[<Member 'aman'>, <Member 'john'>]
+
+<!-- Order_by Query -->
+>>> Member.query.order_by(Member.username).all()
+[<Member 'aman'>, <Member 'Jane'>, <Member 'john'>, <Member 'karan'>]
+>>> Member.query.order_by(Member.id).all()
+[<Member 'Jane'>, <Member 'aman'>, <Member 'john'>, <Member 'karan'>]
+>>> Member.query.order_by(Member.id).first()
+<Member 'Jane'>
+>>> q1=Member.query.filter(db.or_(Member.username=='aman',Member.username=='ne'))
+>>> q1.all()
+[<Member 'aman'>]
+>>> q1.order_by(Member.username).all()
+[<Member 'aman'>]
+
+
 <!-- prettier-ignore-end -->
