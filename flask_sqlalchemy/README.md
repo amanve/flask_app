@@ -145,4 +145,17 @@ foreverjane@yahoo.com
 2
 >>> Member.query.count()
 4
+
+<!-- Inequality Query -->
+>>> q=Member.query.filter(Member.id>2).all()
+>>> q
+[<Member 'aman'>, <Member 'john'>, <Member 'karan'>]
+>>> q1=Member.query.filter(Member.id<3).all()
+>>> q1
+[<Member 'Jane'>]
+>>> q2=Member.query.filter(Member.email<'g').all()
+>>> q2
+[<Member 'Jane'>, <Member 'aman'>]
+
+
 <!-- prettier-ignore-end -->
