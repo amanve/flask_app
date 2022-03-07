@@ -27,7 +27,7 @@ class Member(db.Model):
     """ Returns representation of the object in Database """
 
     def __repr__(self):
-        return '<Member %r>' % self.name
+        return '<Member %r>' % self.username
 
 
 if __name__ == '__main__':
