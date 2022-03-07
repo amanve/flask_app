@@ -24,6 +24,10 @@ class Member(db.Model):
     join_date = db.Column(db.DateTime)
 
     orders = db.relationship('Order', backref='member', lazy='dynamic')
+    courses = db.relationship('Course',
+                              secondary='user_courses',
+                              backref='member',
+                              lazy='dynamic')
 
     # Create a string
     """ Returns representation of the object in Database """
@@ -37,6 +41,15 @@ class Order(db.Model):
     price = db.Column(db.Integer)
     member_id = db.Column(db.Integer, db.ForeignKey('member.id'))
 
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(20))
+
+
+db.Table('user_courses',
+         db.Column('member_id', db.Integer, db.ForeignKey('member.id')),
+         db.Column('course_id', db.Integer, db.ForeignKey('course.id')))
 
 if __name__ == '__main__':
     app.run()
