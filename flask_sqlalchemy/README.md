@@ -133,4 +133,10 @@ foreverjane@yahoo.com
 [<Member 'Jane'>, <Member 'aman'>]
 >>> Member.query.order_by(Member.username).limit(2).all()
 [<Member 'aman'>, <Member 'Jane'>]
+
+<!-- Offset Query -->
+>>> Member.query.offset(1).all()
+[<Member 'aman'>, <Member 'john'>, <Member 'karan'>]
+>>> Member.query.offset(2).all()
+[<Member 'john'>, <Member 'karan'>]
 <!-- prettier-ignore-end -->
