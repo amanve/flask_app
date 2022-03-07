@@ -34,6 +34,8 @@
     |  2 | Jane     | testuser | jane@test.com | 2022-03-07 00:00:00 |
     +----+----------+----------+---------------+---------------------+
 
+> select * from `order`; <!-- "order" is builtin function so it is enclosed in `backticks` -->
+
 <!-- Python Shell Commands -->
 <!-- prettier-ignore-start -->
 >>> from app import db
@@ -158,4 +160,16 @@ foreverjane@yahoo.com
 [<Member 'Jane'>, <Member 'aman'>]
 
 <!-- One to Many relationships -->
+>>> Member.query.all()
+[<Member 'Jane'>, <Member 'aman'>, <Member 'john'>, <Member 'karan'>]
+>>> karan=Member.query.filter(Member.username=='karan').first()
+>>> karan
+<Member 'karan'>
+>>> karan.id
+5
+>>> order1=Order(price=30,member_id=karan.id)
+>>> db.session.add(order1)
+>>> db.session.commit()
+>>> karan.orders.all()
+
 <!-- prettier-ignore-end -->
