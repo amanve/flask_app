@@ -68,4 +68,18 @@ foreverjane@yahoo.com
 >>> q3=q2.filter(Member.username=='notexists')
 >>> q3.all()
 []
+
+<!-- not equals -->
+>>> q=Member.query.filter(Member.username!='aman').all()
+>>> q
+[<Member 'Jane'>, <Member 'john'>]
+>>> q1=Member.query.filter(Member.email!='john@test.com').all()
+>>> q1
+
+<!-- like -->
+>>> like_query=Member.query.filter(Member.username.like('%am%'))
+>>> like_query
+<flask_sqlalchemy.BaseQuery object at 0x0000018B9E0965F0>
+>>> like_query.all()
+[<Member 'aman'>]
 <!-- prettier-ignore-end -->
