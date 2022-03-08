@@ -73,6 +73,8 @@
     |  4 | john     |
     |  5 | karan    |
     +----+----------+
+
+> select mem.id, mem.username, course.name as course_name from `member` as mem left join `user_courses` as uc on mem.id = uc.member_id left join `course` as course on uc.member_id = course.id;
 <!-- prettier-ignore-end  -->
 
 <!-- Python Shell Commands -->
@@ -216,7 +218,7 @@ foreverjane@yahoo.com
 >>> course1=Course(name='Python')
 >>> course2=Course(name='C++')
 >>> course3=Course(name='JavaScript')
->>> db.session.add(Python)
+
 >>> db.session.add(course1) 
 >>> db.session.add(course2)
 >>> db.session.add(course3)
@@ -250,5 +252,6 @@ foreverjane@yahoo.com
 [<Course 1>, <Course 2>]
 >>> course1.member
 [<Member 'aman'>, <Member 'karan'>]
+>>> db.session.commit()
 
 <!-- prettier-ignore-end -->

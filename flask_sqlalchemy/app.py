@@ -33,7 +33,7 @@ class Member(db.Model):
     """ Returns representation of the object in Database """
 
     def __repr__(self):
-        return '<Member %r>' % self.username
+        return f'<Member {self.username}>'
 
 
 class Order(db.Model):
@@ -45,6 +45,9 @@ class Order(db.Model):
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20))
+
+    def __repr__(self):
+        return f'<Course {self.name}>'
 
 
 db.Table('user_courses',
