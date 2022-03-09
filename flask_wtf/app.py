@@ -13,6 +13,8 @@ class LoginForm(FlaskForm):
 @app.route('/',methods=['GET','POST'])
 def index():
     form=LoginForm()
+    if form.validate_on_submit():
+        return f'<h1>Username:{form.username.data} Password:{form.password.data}</h1>'
 
     return render_template('index.html',form=form)
 
