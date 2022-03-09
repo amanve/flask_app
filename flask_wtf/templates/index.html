@@ -10,13 +10,17 @@
 
     <body>
         <h1>The form is below</h1>
-        <form action="/" method="POST">
+        <form action={{url_for('index')}} method="POST">
             {{ form.csrf_token }}
             {{ form.username.label }}
             {{ form.username }}
+            {% for error in form.username.errors %}
+            {{form.username.error}}
+            {% endfor %}
             {{ form.password.label }}
             {{ form.password }}
-            <input type="submit" value="Submit">
+
+            {{ form.submit }}
         </form>
     </body>
 
