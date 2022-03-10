@@ -1,10 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 from flask_mail import Mail, Message
-from flask_mail import *
+import flask_mail 
 
 app = Flask(__name__)
 
-app.config['TESTING'] = True
+app.config['TESTING'] = False
 app.config['SECRET_KEY'] = 'mysecret!'
 
 app.config['MAIL_SERVER'] = 'localhost'
@@ -21,21 +21,45 @@ app.config['MAIL_ASCII_ATTACHMENTS'] = False
 
 mail = Mail(app)
 
+'''
+@app.route('/')
+def index():
+  msg = Message()
+  msg.subject='Hello World this is a flask mail!'
+  msg.sender=("Me", "me@example.com")
+  #assert msg.sender == "Me <me@example.com>"
+  msg.recipients=['to@e-mail.com','test@e-mail.com','me@e-mail.com']
+  msg.body="test mail"
+  msg.html="<h1>testing flask mail</h1>"
+  
+  mail.send(msg)
+  return render_template('index.html')
+'''
 
 @app.route('/')
 def index():
-  msg = Message('Hello World this is a flask mail!',
-                sender='myname@e-mail.com',
-                recipients=['to@e-mail.com'])
+  msg = Message()
+  msg.subject='Hello World this is a flask mail!'
+  msg.sender=("Me", "me@example.com")
+  #assert msg.sender == "Me <me@example.com>"
+  msg.recipients=['to@e-mail.com','test@e-mail.com','me@e-mail.com']
+  msg.body="test mail"
+  msg.html="<h1>testing flask mail</h1>"
+ 
   mail.send(msg)
-  return render_template('index.html')
+  
+  return {'Message':msg.subject,'Sender':msg.sender}
 
 
 def log_message(msg, app):
   app.logger.debug(msg.subject)
+  app.logger.debug(msg.sender)
+  app.logger.debug(msg.html)
+  app.logger.debug(msg.recipients)
+  app.logger.debug(msg.body)
 
 
-email_dispatched.connect(log_message)
+flask_mail.email_dispatched.connect(log_message)
 
 if __name__ == '__main__':
   app.run()
