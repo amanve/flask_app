@@ -3,6 +3,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from werkzeug.security import generate_password_hash
+from flask_admin.contrib.fileadmin import FileAdmin
+
+from os.path import dirname, join
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///admin_app.db'
@@ -35,15 +39,26 @@ class Comment(db.Model):
 
 
 class UserView(ModelView):
-  column_exclude_list = ['password']
+  column_exclude_list = []
   column_display_pk = True
-  can_create = False
+  can_create = True
   can_edit = True
-  can_delete = False
+  can_delete = True
+  can_export = True
+
+  def on_model_change(self, form, model, is_current):
+    model.password = generate_password_hash(model.password, method='sha256')
+
+
+class CommentView(ModelView):
+  create_modal = True
 
 
 admin.add_view(UserView(User, db.session))
 admin.add_view(ModelView(Comment, db.session))
+
+path = join(dirname(__file__), 'uploads')
+admin.add_view(FileAdmin(path, '/uploads/', name='Uploads'))
 
 if __name__ == '__main__':
   app.run()
