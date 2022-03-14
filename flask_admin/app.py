@@ -1,7 +1,7 @@
 from enum import unique
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_admin import Admin
+from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash
 from flask_admin.contrib.fileadmin import FileAdmin
@@ -38,6 +38,14 @@ class Comment(db.Model):
     return f'<Comment {self.commentText}>'
 
 
+class NotificationView(BaseView):
+
+  @expose('/')
+  def index(self):
+    return self.render('admin/notification.html')
+    # return 'Hello World'
+
+
 class UserView(ModelView):
   column_exclude_list = []
   column_display_pk = True
@@ -59,6 +67,8 @@ admin.add_view(ModelView(Comment, db.session))
 
 path = join(dirname(__file__), 'uploads')
 admin.add_view(FileAdmin(path, '/uploads/', name='Uploads'))
+
+admin.add_view(NotificationView(name='Notification', endpoint='notify'))
 
 if __name__ == '__main__':
   app.run()
