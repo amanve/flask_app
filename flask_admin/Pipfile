@@ -8,6 +8,7 @@ flask = "*"
 flask-admin = "*"
 flask-sqlalchemy = "*"
 yapf = "*"
+flask-login = "*"
 
 [dev-packages]
 
