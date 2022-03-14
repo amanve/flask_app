@@ -57,6 +57,8 @@ class UserView(ModelView):
   def on_model_change(self, form, model, is_current):
     model.password = generate_password_hash(model.password, method='sha256')
 
+  inline_models = [Comment]
+
 
 class CommentView(ModelView):
   create_modal = True
