@@ -7,5 +7,6 @@ Query - <https://flask-restless-ng.readthedocs.io/en/2.2.9/fetching.html>?
 Read documentation for problems
 
 ![body](body.JPG)
-![headers](\headers.JPG)
-![filter_query](\filter_query.JPG)
+![headers](headers.JPG)
+![filter_query](filter_query.JPG)
+![pagination](pagination.JPG)
