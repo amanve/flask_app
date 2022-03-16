@@ -9,4 +9,4 @@ Read documentation for problems
 ![body](body.JPG)
 ![headers](headers.JPG)
 ![filter_query](filter_query.JPG)
-![pagination](pagination.JPG)
+![pagination](pagination.jpg)
