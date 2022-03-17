@@ -8,6 +8,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///security.db'
 app.config['SECURITY_REGISTERABLE'] = True
 app.config['SECURITY_PASSWORD_SALT'] = 'salty'
 app.config['SECURITY_SEND_REGISTER_EMAIL'] = False
+app.config['SECURITY_RECOVERABLE'] = True
+app.config['SECURITY_CHANGEABLE'] = True
 
 db = SQLAlchemy(app)
 
