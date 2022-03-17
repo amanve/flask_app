@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin
+from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret!'
@@ -34,6 +34,18 @@ class User(db.Model, UserMixin):
   roles = db.relationship('Role',
                           secondary=roles_users,
                           backref=db.backref('users', lazy='dynamic'))
+
+
+@app.route('/')
+def index():
+  return '<h1>Home page</h1>'
+
+
+@app.route('/protected')
+@login_required
+def protected():
+  email = current_user.email
+  return f'<h1>This is a protected page. Your email is {email}</h1>'
 
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
