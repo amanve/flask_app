@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, current_user
+from flask_security import Security, SQLAlchemyUserDatastore,\
+  UserMixin, RoleMixin, login_required, current_user, \
+  roles_accepted
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret!'
@@ -15,8 +17,8 @@ db = SQLAlchemy(app)
 
 roles_users = db.Table(
     'roles_users', \
-    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),\
-    db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+  db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),\
+  db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
 
 class Role(db.Model, RoleMixin):
@@ -38,6 +40,9 @@ class User(db.Model, UserMixin):
 
 @app.route('/')
 def index():
+  admin_role = user_datastore.find_or_create_role('admin')
+  user_datastore.add_role_to_user(current_user, admin_role)
+  db.session.commit()
   return '<h1>Home page</h1>'
 
 
@@ -45,7 +50,13 @@ def index():
 @login_required
 def protected():
   email = current_user.email
-  return f'<h1>This is a protected page. Your email is {email}</h1>'
+  return f'<h1>This is a protected page. Your email is {current_user.email}</h1>'
+
+
+@app.route('/roleprotected')
+@roles_accepted('admin')
+def roleprotected():
+  return '<h1>this is for admin only.</h1>'
 
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
