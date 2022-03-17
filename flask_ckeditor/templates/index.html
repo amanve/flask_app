@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Flask-CKEditor</title>
+    </head>
+
+    <body>
+        <!--  {{ckeditor.load()}}
+        <form method="post">
+            {{ ckeditor.create(value=article_body) }}
+            <input type="submit">
+        </form> -->
+
+        <form method="post">
+            {{ form.title() }}
+            {{ form.body() }}
+            {{ form.submit() }}
+        </form>
+
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='body') }}
+    </body>
+    </body>
+
+</html>
