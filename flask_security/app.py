@@ -5,6 +5,9 @@ from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMix
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///security.db'
+app.config['SECURITY_REGISTERABLE'] = True
+app.config['SECURITY_PASSWORD_SALT'] = 'salty'
+app.config['SECURITY_SEND_REGISTER_EMAIL'] = False
 
 db = SQLAlchemy(app)
 
