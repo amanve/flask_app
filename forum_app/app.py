@@ -5,6 +5,7 @@ from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMix
 from flask_security.forms import RegisterForm
 from wtforms import StringField
 from flask_wtf import FlaskForm
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -52,6 +53,7 @@ class Thread(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30))
     description = db.Column(db.String())
+    date_created = db.Column(db.DateTime())
 
 
 class NewThread(FlaskForm):
@@ -69,7 +71,8 @@ def index():
     if form.validate_on_submit():
         # return f'''Title:{form.title.data}, Description:{form.description.data}'''
         new_thread = Thread(title=form.title.data,
-                            description=form.description.data)
+                            description=form.description.data,
+                            date_created=datetime.now())
         db.session.add(new_thread)
         db.session.commit()
 
