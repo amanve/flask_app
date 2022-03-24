@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin
 from flask_security.forms import RegisterForm
 from wtforms import StringField
+from flask_wtf import FlaskForm
 
 app = Flask(__name__)
 
@@ -53,13 +54,26 @@ class Thread(db.Model):
     description = db.Column(db.String())
 
 
+class NewThread(FlaskForm):
+    title = StringField('Title')
+    description = StringField('Description')
+
+
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore, register_form=ExtendRegisterForm)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    form = NewThread()
+    if form.validate_on_submit():
+        # return f'''Title:{form.title.data}, Description:{form.description.data}'''
+        new_thread = Thread(title=form.title.data,
+                            description=form.description.data)
+        db.session.add(new_thread)
+        db.session.commit()
+
+    return render_template('index.html', form=form)
 
 
 @app.route('/profile')
