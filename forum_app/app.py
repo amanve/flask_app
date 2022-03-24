@@ -47,6 +47,12 @@ class ExtendRegisterForm(RegisterForm):
     username = StringField('Username')
 
 
+class Thread(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30))
+    description = db.Column(db.String())
+
+
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore, register_form=ExtendRegisterForm)
 
