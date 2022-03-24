@@ -18,6 +18,10 @@ Mako = "*"
 MarkupSafe = "*"
 SQLAlchemy = "*"
 Werkzeug = "*"
+yapf = "*"
+flask-security = "*"
+bcrypt = "*"
+wtforms = {extras = ["email"], version = "*"}
 
 [dev-packages]
 
