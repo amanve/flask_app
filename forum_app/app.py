@@ -73,7 +73,9 @@ def index():
         db.session.add(new_thread)
         db.session.commit()
 
-    return render_template('index.html', form=form)
+    threads = Thread.query.all()
+
+    return render_template('index.html', form=form, threads=threads)
 
 
 @app.route('/profile')
