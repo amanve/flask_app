@@ -46,7 +46,7 @@
                     <div class="col-lg-4">
                         <p>
                             <i class="glyphicon glyphicon-calendar"></i>
-                            {{ thread.date_created }} &nbsp;
+                            {{ thread.date_created.strftime('%d %B, %Y') }} &nbsp;
                             <a href="./thread.html#_reply">
                                 <i class="glyphicon glyphicon-comment"></i> Reply
                             </a>
