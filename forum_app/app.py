@@ -1,8 +1,8 @@
-from email import message
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, current_user, login_required
+from flask_security import Security, SQLAlchemyUserDatastore,\
+     UserMixin, RoleMixin, current_user, login_required
 from flask_security.forms import RegisterForm
 from wtforms import StringField, TextAreaField
 from flask_wtf import FlaskForm
