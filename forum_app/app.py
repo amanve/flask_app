@@ -56,6 +56,14 @@ class Thread(db.Model):
     date_created = db.Column(db.DateTime())
 
 
+class Reply(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    message = db.Column(db.String())
+    date_created = db.Column(db.DateTime())
+
+
 class NewThread(FlaskForm):
     title = StringField('Title')
     description = StringField('Description')
