@@ -59,6 +59,15 @@ class Thread(db.Model):
 
     replies = db.relationship('Reply', backref='thread', lazy='dynamic')
 
+    def last_post_date(self):
+        last_reply = Reply.query.filter_by(thread_id=self.id).order_by(
+            Reply.id.desc()).first()
+
+        if last_reply:
+            return last_reply.date_created
+
+        return self.date_created
+
 
 class Reply(db.Model):
     id = db.Column(db.Integer, primary_key=True)
