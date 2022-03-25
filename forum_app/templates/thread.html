@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="pageTitle">
-    <a href="">General Thread</a>
+    <a href="">{{thread.title}}</a>
 </div>
 
 <div class="row">
@@ -21,17 +21,16 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <p class="big">Thread: General Thread</p>
+                        <p class="big">Thread: {{thread.title}}</p>
                     </div>
                     <div class="col-lg-12">
-                        This is where we talk about every issue you can think of no matter how small 
-                        or complex.
+                        {{thread.description}}
                     </div>
 
                     <div class="col-lg-12">
-                        <br />  
-                        <i class="glyphicon glyphicon-calendar"></i> 
-                        25 June, 2017 &nbsp;
+                        <br />
+                        <i class="glyphicon glyphicon-calendar"></i>
+                        {{thread.date_created.strftime('%d %b,%Y')}} &nbsp;
                         <a href="#_reply"><i class="glyphicon glyphicon-comment"></i> Post Reply</a>
                     </div>
                 </div>
@@ -87,17 +86,16 @@
                 <form action="" method="POST" role="form" id="theForm">
 
                     <div class="form-group">
-                        <textarea name="reply" id="reply" class="form-control" rows="5" required="required" placeholder="Post Reply"></textarea>
+                        <textarea name="reply" id="reply" class="form-control" rows="5" required="required"
+                            placeholder="Post Reply"></textarea>
                     </div>
-                
-                    <button 
-                        type="submit" 
-                        class="btn btn-primary">
+
+                    <button type="submit" class="btn btn-primary">
                         <i class="glyphicon glyphicon-save"></i> Submit
                     </button> &nbsp;
                 </form>
             </div>
         </div>
     </div>
-</div>                      
+</div>
 {% endblock %}
